@@ -22,7 +22,7 @@ public class MovieListViewModel extends ViewModel {
 
 
     public MutableLiveData<List<MovieModel>> getMovieListObserver(){
-        return moviesList; // at 15:12 in the video
+        return moviesList;
     }
     public void makeApiCall(){
         APIService apiService = RetroInstance. getRetrofitClient().create(APIService.class);
@@ -30,11 +30,13 @@ public class MovieListViewModel extends ViewModel {
         call.enqueue(new Callback<List<MovieModel>>() {
             @Override
             public void onResponse(Call<List<MovieModel>> call, Response<List<MovieModel>> response) {
+                moviesList.postValue(response.body());
 
             }
 
             @Override
             public void onFailure(Call<List<MovieModel>> call, Throwable t) {
+                moviesList.postValue(null);
 
             }
         });
